@@ -154,10 +154,10 @@ if  st.button("Process!"):
     evaluation_results["mean_squared_error"] = mean_absolute_percentage_error(test["Value"], mean)
     st.write(evaluation_results)
 
-    st.title("Predictions in 120 months")
-    delta_months = 30*6
+    st.title("Predictions in 30 days")
+    delta_days = 30*1
     confidence_interval = 0.30
-    dates = pd.date_range(df_brent.index[-1], periods=delta_months, freq="D")
+    dates = pd.date_range(df_brent.index[-1], periods=delta_days, freq="D")
     dates = dates[1:]
     forecast_object = results.get_forecast(steps=len(dates))
     mean = forecast_object.predicted_mean
@@ -165,5 +165,6 @@ if  st.button("Process!"):
     fig,ax = plt.subplots(figsize=(15,15))
     plt.plot(df_brent.index, df_brent, label="real")
     plt.plot(dates, mean, label="predicted")
+    plt.ylabel("Brent (USD)")
     plt.fill_between(dates, conf_int.iloc[:,0], conf_int.iloc[:,1],alpha=0.20)
     st.pyplot(fig)
